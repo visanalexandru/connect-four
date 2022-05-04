@@ -1,0 +1,49 @@
+#include <iostream>
+#include"board.h"
+#include"search.h"
+
+using namespace std;
+
+
+int read_move(Connect_Four::Board &board) {
+    int move;
+    bool valid = false;
+    while (!valid) {
+        std::cout << "Enter your move:";
+        std::cin >> move;
+        valid = board.valid_move(move);
+    }
+    return move;
+}
+
+Connect_Four::Color read_color() {
+    int color;
+    do {
+        std::cout << "1. Play as yellow" << endl;
+        std::cout << "2. Play as red" << endl;
+        std::cin >> color;
+    } while (color < 1 || color > 2);
+    if (color == 1) {
+        return Connect_Four::Color::Yellow;
+    }
+    return Connect_Four::Color::Red;
+}
+
+int main() {
+    Connect_Four::Board board;
+    Connect_Four::Search search(board);
+    Connect_Four::Color current = read_color();
+
+    while (board.score() != -Connect_Four::WIN_SCORE && board.score() != Connect_Four::WIN_SCORE) {
+        cout << board << endl;
+        if (board.current_player() == current) {
+            board.make_move(read_move(board));
+        } else {
+            board.make_move(search.best_move(10));
+        }
+    }
+
+    cout << board << endl;
+
+    return 0;
+}
