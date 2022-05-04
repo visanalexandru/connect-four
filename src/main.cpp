@@ -6,22 +6,24 @@ using namespace std;
 
 
 int read_move(Connect_Four::Board &board) {
-    int move;
+    int move = 0;
     bool valid = false;
     while (!valid) {
-        std::cout << "Enter your move:";
-        std::cin >> move;
-        valid = board.valid_move(move);
+        while (move < 1 || move > Connect_Four::BOARD_WIDTH) {
+            cout << "Enter your move (number between 1 and 7):";
+            cin >> move;
+        }
+        valid = board.valid_move(move - 1);
     }
-    return move;
+    return move - 1;
 }
 
 Connect_Four::Color read_color() {
     int color;
     do {
-        std::cout << "1. Play as yellow" << endl;
-        std::cout << "2. Play as red" << endl;
-        std::cin >> color;
+        cout << "1. Play as yellow" << endl;
+        cout << "2. Play as red" << endl;
+        cin >> color;
     } while (color < 1 || color > 2);
     if (color == 1) {
         return Connect_Four::Color::Yellow;
@@ -44,6 +46,11 @@ int main() {
     }
 
     cout << board << endl;
+    if (board.current_player() == Connect_Four::Color::Yellow) {
+        cout << "Red wins";
+    } else {
+        cout << "Yello wins";
+    }
 
     return 0;
 }

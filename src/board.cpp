@@ -185,6 +185,10 @@ namespace Connect_Four {
 
     std::ostream &operator<<(std::ostream &os, const Board &board) {
         os << "Player to move: " << (board.player_to_move == Color::Yellow ? "Yellow" : "Red") << std::endl;
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            os << " " << i + 1 << " ";
+        }
+        os << std::endl;
         for (int line = BOARD_HEIGHT - 1; line >= 0; line--) {
             for (int column = 0; column < BOARD_WIDTH; column++) {
                 if (board.piece[Color::Yellow][line][column]) {
